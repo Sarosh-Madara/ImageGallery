@@ -6,14 +6,14 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.app.justimage.R
-import com.app.justimage.data.PixabayPhoto
-import com.app.justimage.databinding.ItemPhotoBinding
+import com.app.justimage.data.GithubUserModel
+import com.app.justimage.databinding.RowGithubUserBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
-class PixabayPhotoAdapter(private val onItemClickListener: OnItemClickListener) : PagingDataAdapter<PixabayPhoto, PixabayPhotoAdapter.PhotoViewHolder>(PHOTO_COMPARATOR) {
+public class PixabayPhotoAdapter(private val onItemClickListener: OnItemClickListener) : PagingDataAdapter<GithubUserModel, PixabayPhotoAdapter.GithubUserViewHolder>(USER_COMPARATOR) {
 
-    override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: GithubUserViewHolder, position: Int) {
         val currentItem = getItem(position)
         if (currentItem != null) {
             holder.bind(currentItem)
@@ -21,12 +21,12 @@ class PixabayPhotoAdapter(private val onItemClickListener: OnItemClickListener) 
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
-        val binding = ItemPhotoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PhotoViewHolder(binding)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GithubUserViewHolder {
+        val binding = RowGithubUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return GithubUserViewHolder(binding)
     }
 
-    inner class PhotoViewHolder(private val binding: ItemPhotoBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class GithubUserViewHolder(private val binding: RowGithubUserBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.root.setOnClickListener {
@@ -40,31 +40,31 @@ class PixabayPhotoAdapter(private val onItemClickListener: OnItemClickListener) 
             }
         }
 
-        fun bind(photo: PixabayPhoto) {
+        fun bind(user: GithubUserModel) {
             binding.apply {
-                Glide.with(binding.imageView)
-                        .load(photo.previewURL)
+                binding.txtUserLogin.text = user.login
+                Glide.with(binding.imgUser)
+                        .load(user.avatar_url)
                         .centerCrop()
                         .transition(DrawableTransitionOptions.withCrossFade())
-                        .error(R.drawable.ic_error)
-                        .into(binding.imageView)
+                        .error(R.mipmap.ic_launcher)
+                        .into(binding.imgUser)
             }
         }
     }
 
     interface OnItemClickListener {
-        fun onItemClick(photo: PixabayPhoto)
+        fun onItemClick(photo: GithubUserModel)
     }
 
 
     companion object {
-        private val PHOTO_COMPARATOR = object : DiffUtil.ItemCallback<PixabayPhoto>() {
-            override fun areItemsTheSame(oldItem: PixabayPhoto, newItem: PixabayPhoto): Boolean {
+        private val USER_COMPARATOR = object : DiffUtil.ItemCallback<GithubUserModel>() {
+            override fun areItemsTheSame(oldItem: GithubUserModel, newItem: GithubUserModel): Boolean {
                 return oldItem.id == newItem.id
             }
 
-            override fun areContentsTheSame(oldItem: PixabayPhoto, newItem: PixabayPhoto) = oldItem == newItem
+            override fun areContentsTheSame(oldItem: GithubUserModel, newItem: GithubUserModel) = oldItem == newItem
         }
     }
-
 }

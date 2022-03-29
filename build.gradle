@@ -3,6 +3,7 @@ buildscript {
     ext{
         kotlinVersion = '1.4.0'
         navigationVersion = '2.3.0'
+        okhttpLoggingVersion = '4.8.1'
         hiltVersion = '2.28.3-alpha'
     }
     repositories {
