@@ -23,8 +23,8 @@
         android:id="@+id/text_view_error"
         android:visibility="gone"
         android:layout_above="@id/btn_reload"
-        android:text="Unable to load images"
-        tools:visibility="visible"
+        android:text="Unable to load data"
+        tools:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"/>
@@ -32,7 +32,7 @@
     <Button
         android:id="@+id/btn_reload"
         android:visibility="gone"
-        tools:visibility="visible"
+        tools:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"/>
@@ -41,7 +41,7 @@
         android:id="@+id/text_view_empty"
         android:layout_centerInParent="true"
         android:visibility="gone"
-        tools:visibility="visible"
+        tools:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No results found for this query"/>

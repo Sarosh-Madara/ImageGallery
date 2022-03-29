@@ -8,17 +8,16 @@ import retrofit2.http.Query
 interface PixabayApi {
 
     // suspend fun to handle threading with kotlin coroutines
-    @GET("api/")
+    @GET("search/users")
     suspend fun searchPhotos(
-            @Query("key") key: String?,
-            @Query("q") query: String?,
-            @Query("page") page: Int,
-            @Query("per_page") perPage: Int
-    ): PixabayResponse
+            @Query("q") query: String,
+            @Query("sort") sort: String,
+            @Query("page") page: Int = 1,
+            @Query("per_page") numOfUsers: Int = 9,
+    ): SearchUsersResponse
 
     // static as in java
     companion object {
-        val ACCESS_KEY_PIXABAY = "20321905-42ccc03392c3fdd2664acaf43"
-        const val BASE_URL = "https://pixabay.com/"
+        const val BASE_URL = "https://api.github.com/"
     }
 }

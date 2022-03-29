@@ -10,17 +10,5 @@
         android:name="com.app.justimage.ui.photos.PhotosFragment"
         android:label="Just Image"
         tools:layout="@layout/fragment_photos" >
-        <action
-            android:id="@+id/action_photosFragment_to_photoViewFragment"
-            app:destination="@id/photoViewFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/photoViewFragment"
-        android:name="com.app.justimage.ui.photoview.PhotoViewFragment"
-        android:label="Photo View"
-        tools:layout="@layout/fragment_photo_view" >
-        <argument
-            android:name="photo"
-            app:argType="com.app.justimage.data.PixabayPhoto" />
     </fragment>
 </navigation>

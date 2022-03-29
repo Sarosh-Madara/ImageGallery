@@ -9,21 +9,20 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.app.justimage.R
-import com.app.justimage.data.PixabayPhoto
+import com.app.justimage.data.GithubUserModel
 import com.app.justimage.databinding.FragmentPhotosBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_photos.*
-import kotlinx.android.synthetic.main.pixabay_photo_load_state_footer.*
 
 // needs here as well to inject fields of this classes and used when needed
 @AndroidEntryPoint
 class PhotosFragment : Fragment(R.layout.fragment_photos), PixabayPhotoAdapter.OnItemClickListener{
+
+    private var firstTime: Boolean = true
 
     // due to AndroidEntryPoint below model will be injected by dagger
     private val viewModel by viewModels<PhotosViewModel>()
@@ -40,7 +39,7 @@ class PhotosFragment : Fragment(R.layout.fragment_photos), PixabayPhotoAdapter.O
         _binding = FragmentPhotosBinding.bind(view)
         setupRecylerView()
 
-        viewModel.photos.observe(viewLifecycleOwner) { data: PagingData<PixabayPhoto> ->
+        viewModel.photos.observe(viewLifecycleOwner) { data: PagingData<GithubUserModel> ->
             adapter.submitData(viewLifecycleOwner.lifecycle, data)
         }
 
@@ -48,8 +47,11 @@ class PhotosFragment : Fragment(R.layout.fragment_photos), PixabayPhotoAdapter.O
             binding.apply {
                 progressBar.isVisible = loadState.source.refresh is LoadState.Loading
                 recyclerView.isVisible = loadState.source.refresh is LoadState.NotLoading
-                btn_reload.isVisible = loadState.source.refresh is LoadState.Error
-                textViewError.isVisible = loadState.source.refresh is LoadState.Error
+                if(!firstTime){
+                    btn_reload.isVisible = loadState.source.refresh is LoadState.Error
+                    textViewError.isVisible = loadState.source.refresh is LoadState.Error
+                    firstTime = !firstTime
+                }
 
                 if (loadState.source.refresh is LoadState.NotLoading &&
                         loadState.append.endOfPaginationReached &&
@@ -109,8 +111,7 @@ class PhotosFragment : Fragment(R.layout.fragment_photos), PixabayPhotoAdapter.O
         _binding = null
     }
 
-    override fun onItemClick(photo: PixabayPhoto) {
-        val action = PhotosFragmentDirections.actionPhotosFragmentToPhotoViewFragment(photo)
-        findNavController().navigate(action)
+    override fun onItemClick(photo: GithubUserModel) {
+
     }
 }
